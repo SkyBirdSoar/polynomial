@@ -5,6 +5,7 @@ module Polynomial.Term
 ( module Polynomial.Variable
 , Term -- Coefficient * Variable = Term
 , Substitutable (..) -- Term is an instance of Substitutable
+, Trimable (..) -- Term is an instance of Trimable
 , term -- Smart constructor for Term (Coefficient -> [Variable] -> Term)
 , mterm -- Smart constructor for Term (Coefficient -> Variable -> Term)
 , (><) -- alias for mterm
@@ -176,6 +177,14 @@ b |=| c = (b, c)
 instance Show Term where
     show (Term 1 v) = showVariables1 v
     show (Term c v) = show c ++ showVariables1 v
+
+class Trimable a where
+    trim :: a -> a
+
+instance Trimable Term where
+    -- Remove all ^0 variables from Term
+    -- Eg trim $ term 12 [x' 4, var_ 'a' 0, y] #=> 12.0(x^4)y (Term 12 [x^4, y])
+    trim (Term c v) = Term c $ filter (\(Variable _ p) -> p /= 0) v
 
 instance Eq Term where
     a@(Term c _) == b@(Term c2 _) = comparableTerms a b && c == c2

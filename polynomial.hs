@@ -73,4 +73,9 @@ instance DivisiblePolynomialType Polynomial Polynomial where
     a@(Polynomial _) |/| Polynomial b = foldr (\d c -> c |/| d) a b
 
 instance Substitutable Polynomial where
+    -- see Explanation in term.hs
     a `into` Polynomial b = mkpoly $ map (a `into`) b
+
+instance Trimable Polynomial where
+    -- see Explanation in term.hs
+    trim (Polynomial a) = mkpoly $ map trim a

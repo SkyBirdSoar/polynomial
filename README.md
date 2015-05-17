@@ -28,6 +28,7 @@ module Polynomial.Term
 ( module Polynomial.Variable
 , Term -- Coefficient * Variable = Term
 , Substitutable (..) -- Term is an instance of Substitutable
+, Trimable (..) -- Term is an instance of Trimable
 , term -- Smart constructor for Term (Coefficient -> [Variable] -> Term)
 , mterm -- Smart constructor for Term (Coefficient -> Variable -> Term)
 , (><) -- alias for mterm
@@ -44,14 +45,15 @@ module Polynomial.Term
 ) where
 ```
 
-`Term` is an instance of `Substitutable`, `PolynomialType Term Polynomial`, `PolynomialType Polynomial Term`, `PolynomialType Term Term`, `DivisiblePolynomialType Polynomial Term`, Num, Eq, Show, Ord
+`Term` is an instance of `Substitutable`, `PolynomialType Term Polynomial`, `PolynomialType Polynomial Term`, `PolynomialType Term Term`, `DivisiblePolynomialType Polynomial Term`, `Num`, `Eq`, `Show`, `Ord`
 
 It implements:
-- |+| -- adds Terms together to form a polynomial
-- |-| -- subtract Terms to form a polynomial
-- |*| -- multiplies Terms to form a polynomial
-- |/| -- simple division of Terms to form a polynomial
-- into -- substitute an unknown/variable in Term
+- |+| -- adds Terms together to form a polynomial (From PolynomialType)
+- |-| -- subtract Terms to form a polynomial (From PolynomialType)
+- |*| -- multiplies Terms to form a polynomial (From PolynomialType)
+- |/| -- simple division of Terms to form a polynomial (From DivisiblePolynomialType)
+- into -- substitute an unknown/variable in Term (From Substitutable)
+- trim -- trim all zero-powered variables (From Trimable)
 
 ### Polynomial
 ``` haskell
@@ -66,11 +68,12 @@ module Polynomial.Polynomial
 `Polynomial` is an instance of `Substitutable`, `PolynomialType Term Polynomial`, `PolynomialType Polynomial Term`, `PolynomialType Polynomial Polynomial`, `DivisiblePolynomialType Polynomial Term`, `DivisiblePolynomialType Polynomial Polynomial`
 
 It implements:
-- |+| -- adds Polynomials/Terms together to form a polynomial
-- |-| -- subtract Polynomials/Terms to form a polynomial
-- |*| -- multiplies Polynomials/Terms to form a polynomial
-- |/| -- simple division of Polynomials/Terms to form a polynomial
-- into -- substitute an unknown/variable in Term(s in a polynomial)
+- |+| -- adds Polynomials/Terms together to form a polynomial (From PolynomialType)
+- |-| -- subtract Polynomials/Terms to form a polynomial (From PolynomialType)
+- |*| -- multiplies Polynomials/Terms to form a polynomial (From PolynomialType)
+- |/| -- simple division of Polynomials/Terms to form a polynomial (From DivisiblePolynomialType)
+- into -- substitute an unknown/variable in Term(s in a polynomial) (From Substitutable)
+- trim -- trim all zero-powered variables (From Trimable)
 
 If in doubt, consult the relevant files for a more detailed explanation!
 
